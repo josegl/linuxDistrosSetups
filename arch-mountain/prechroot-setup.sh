@@ -41,7 +41,7 @@
 mkfs.ext4 /dev/sdb2
 
 # 2. Abrimos /dev/vg0/lvroot, lo mapeamos a rootCifrado y lo formateamos con ext4
-cyptsetup open --type luks /dev/vg0/lvroot rootCifrado
+cryptsetup open --type luks /dev/vg0/lvroot rootCifrado
 mkfs.ext4 /dev/mapper/rootCifrado
 
 # 3. Montamos las particiones
