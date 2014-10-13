@@ -46,19 +46,22 @@ passwd
 # Ademas se montara en ramdisk el directorio /tmp y /var/tmp
 mkdir -m 700 /etc/lukskeys
 dd if=/dev/random of=/etc/lukskeys/home.key bs=1 count=4096000
-cryptsetup luksFormart -v -s 512 /dev/vg0/lvhome /etc/lukskeys/home.key
+cryptsetup luksFormat -v -s 512 /dev/vg0/lvhome /etc/lukskeys/home.key
 cryptsetup -d /etc/lukskeys/home.key open --type luks /dev/vg0/lvhome homeCifrado
 mkfs.ext4 /dev/mapper/homeCifrado
 
 
 # 10. Creacion de mi propio usuario
 useradd -m -g users -G adm,disk,audio,video,optical,storage,power,scanner,network -s /bin/zsh jgl
+echo pass para jgl
 passwd jgl
 
 # 10. Eliiminacion del directorio de los ficheros de setup
 rm -r /linuxDistrosSetups
 
 # 12. Reiniciamos el sistema. Ahora sera cuando necesitemos levantar el entorno grafico. Pero esa parte sera a mano. 
+echo todo terminado. Reiniciando para probar Presiona intro para continuar
+read key
 reboot
 
 
