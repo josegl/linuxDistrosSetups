@@ -15,23 +15,23 @@ pacman -S vim openssh zsh git tmux weechat grub sudo links
 
 # 2. Ahora que tenemos los paquetes basicos para un etorno cli. Vamos a poner los ficheros de configuracion en su 
 # sitio.
-cp linuxDistrosSetups/arch/hostname /etc/hostname
-cp linuxDistrosSetups/arch/vconsole.conf /etc/vconsole.conf
-cp linuxDistrosSetups/arch/crypttab /etc/crypttab
+cp linuxDistrosSetups/arch-mountain/hostname /etc/hostname
+cp linuxDistrosSetups/arch-mountain/vconsole.conf /etc/vconsole.conf
+cp linuxDistrosSetups/arch-mountain/crypttab /etc/crypttab
 
 # 3. Hacemos la configuracion del localtime
 ln -sf /usr/share/zoneinfo/Europe/Madrid /etc/localtime
 
 # 4. Generamos las locales a partir del locale.gen
-cp linuxDistrosSetups/arch/locale.gen /etc/locale.gen
+cp linuxDistrosSetups/arch-mountain/locale.gen /etc/locale.gen
 locale-gen
 
 # 5. Generamos la nueva imagen initramfs con los modulos de seguridad y lvm adecuados
-cp linuxDistrosSetups/arch/mkinitcpio.conf /etc/mkinitcpio.conf
+cp linuxDistrosSetups/arch-mountain/mkinitcpio.conf /etc/mkinitcpio.conf
 mkinitcpio -p linux
 
 # 6. Hacemos la configuracion adecuada del gestor de arranque
-cp linuxDistrosSetups/arch/grub /etc/default/grub
+cp linuxDistrosSetups/arch-mountain/grub /etc/default/grub
 grub-install --target=i386-pc --recheck --debug /dev/sdb
 grub-mkconfig -o /boot/grub/grub.cfg
 

@@ -59,7 +59,7 @@ pacstrap /mnt base base-devel
 
 
 # 5. En este punto generariamos el fstab con genfstab, pero en este caso vamos a restaurar el fichero original.
-cp linuxDistrosSetups/arch/fstab /mnt/etc/fstab
+cp linuxDistrosSetups/arch-mountain/fstab /mnt/etc/fstab
 
 # 6. Aqui nos chrooteamos. 
 # Tendremos que partir la instalacion del setup en dos partes. La prechroot, que es esta que se encarga del tema del particionado, montaje
@@ -67,5 +67,5 @@ cp linuxDistrosSetups/arch/fstab /mnt/etc/fstab
 # con los parametros adecuados. Es por ello que habra que clonear de nuevo el repo dentro del entorno chroot. En lugar de hacerlo con git, copiaremos
 # el directorio completo dentro de /mnt. No podemos olvidar el eliminar todo el directorio del repo cuando terminemos.
 cp -R linuxDistrosSetups /mnt 
-arch-chroot /mnt /bin/bash -c "sh linuxDistrosSetups/arch/postchroot-setup.sh" 
+arch-chroot /mnt /bin/bash -c "sh linuxDistrosSetups/arch-mountain/postchroot-setup.sh" 
 
