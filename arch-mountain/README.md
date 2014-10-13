@@ -66,11 +66,11 @@ Utilizamos una swap de 16 GiB porque es la cantidad de ram que disponemos, y es 
 </p>
 
 <h3>Puntos de montaje del sistema</h3>
-/dev/mapper/rootCifrado ------> /
-/dev/mapper/homeCifrado ------> /home
-/dev/mapper/swapCifrado ------> swap
-ramdisk ----------------------> /tmp
-ramdisk ----------------------> /var/tmp
+/dev/mapper/rootCifrado ------> / </br>
+/dev/mapper/homeCifrado ------> /home </br>
+/dev/mapper/swapCifrado ------> swap </br>
+ramdisk ----------------------> /tmp </br>
+ramdisk ----------------------> /var/tmp </br>
 
 
 <h2> 2. Scripts de setup del sistema</h2>
