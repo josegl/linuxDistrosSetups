@@ -53,7 +53,7 @@ mount /dev/sdb2 /mnt/boot
 # 4.1 metemos unos repos en condiciones. Para eso necesitamos el paquete reflector.
 pacman -Syy
 pacman -S reflector
-reflector -a 8 -f 10 > /etc/pacmand.d/mirrorlist
+reflector -a 8 -f 10 > /etc/pacman.d/mirrorlist
 pacman -Syy
 pacstrap /mnt base base-devel
 
