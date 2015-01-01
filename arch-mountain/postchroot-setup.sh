@@ -11,13 +11,18 @@
 # 1. En este punto actualizamos repos e instalamos los paquetes necesarios para un entorno cli usable:
 pacman -Syy
 pacman -Syu
-pacman -S vim openssh zsh git tmux weechat grub sudo links
+pacman -S gvim-python3 openssh zsh git tmux weechat grub sudo links networkmanager
 
 # 2. Ahora que tenemos los paquetes basicos para un etorno cli. Vamos a poner los ficheros de configuracion en su 
 # sitio.
 cp linuxDistrosSetups/arch-mountain/hostname /etc/hostname
 cp linuxDistrosSetups/arch-mountain/vconsole.conf /etc/vconsole.conf
 cp linuxDistrosSetups/arch-mountain/crypttab /etc/crypttab
+cp linuxDistrosSetups/arch-mountain/hosts /etc/hosts
+# Llaves ssh para root (esto es temporal, cuando inicie sesion con mi usuario
+# se pasaran estas llaves al directorio .ssh de mi usuario y se borraran de aqui
+mkdir -p /root/.ssh
+cp linuxDistrosSetups/arch-mountain/id_rsa* /root/.ssh/
 
 # 3. Hacemos la configuracion del localtime
 ln -sf /usr/share/zoneinfo/Europe/Madrid /etc/localtime
@@ -35,8 +40,8 @@ cp linuxDistrosSetups/arch-mountain/grub /etc/default/grub
 grub-install --target=i386-pc --recheck --debug /dev/sdb
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# 7. Configuracion de red. Pondremos de inicio una ip automatica
-systemctl enable dhcpcd@enp3s0f2.service
+# 7. Configuracion de red. Usaremos networkmanager para ello
+systemctl enable NetworkManager.service
 
 # 8. Pass de root (archpartaadminpass)
 passwd
@@ -56,12 +61,10 @@ useradd -m -g users -G adm,disk,audio,video,optical,storage,power,scanner,networ
 echo pass para jgl
 passwd jgl
 
-# 10. Eliiminacion del directorio de los ficheros de setup
+# 10. Eliminacion del directorio de los ficheros de setup
 rm -r /linuxDistrosSetups
 
 # 12. Reiniciamos el sistema. Ahora sera cuando necesitemos levantar el entorno grafico. Pero esa parte sera a mano. 
 echo todo terminado. Reiniciando para probar Presiona intro para continuar
 read key
 reboot
-
-
