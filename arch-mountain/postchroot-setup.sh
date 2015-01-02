@@ -19,10 +19,6 @@ cp linuxDistrosSetups/arch-mountain/hostname /etc/hostname
 cp linuxDistrosSetups/arch-mountain/vconsole.conf /etc/vconsole.conf
 cp linuxDistrosSetups/arch-mountain/crypttab /etc/crypttab
 cp linuxDistrosSetups/arch-mountain/hosts /etc/hosts
-# Llaves ssh para root (esto es temporal, cuando inicie sesion con mi usuario
-# se pasaran estas llaves al directorio .ssh de mi usuario y se borraran de aqui
-mkdir -p /root/.ssh
-cp linuxDistrosSetups/arch-mountain/id_rsa* /root/.ssh/
 
 # 3. Hacemos la configuracion del localtime
 ln -sf /usr/share/zoneinfo/Europe/Madrid /etc/localtime
