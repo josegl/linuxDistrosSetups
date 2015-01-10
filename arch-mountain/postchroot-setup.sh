@@ -9,6 +9,7 @@
 # En este punto tenemos que preparar el tema del cifrado de la particion home con la llave 
 
 # 1. En este punto actualizamos repos e instalamos los paquetes necesarios para un entorno cli usable:
+pacman-db-upgrade
 pacman -Syy
 pacman -Syu
 pacman -S gvim-python3 openssh zsh git tmux weechat grub sudo links networkmanager
