@@ -16,28 +16,27 @@ pacman -S gvim-python3 openssh zsh git tmux weechat grub sudo links networkmanag
 
 # 2. Ahora que tenemos los paquetes basicos para un etorno cli. Vamos a poner los ficheros de configuracion en su 
 # sitio.
-cp linuxDistrosSetups/arch-mountain/hostname /etc/hostname
-cp linuxDistrosSetups/arch-mountain/vconsole.conf /etc/vconsole.conf
-cp linuxDistrosSetups/arch-mountain/crypttab /etc/crypttab
-cp linuxDistrosSetups/arch-mountain/hosts /etc/hosts
+cp linuxDistrosSetups/arch-virtual/hostname /etc/hostname
+cp linuxDistrosSetups/arch-virtual/vconsole.conf /etc/vconsole.conf
+cp /etc/hosts /etc/hosts.noAdds
+cp linuxDistrosSetups/arch-virtual/hosts /etc/hosts
 # Llaves ssh para root (esto es temporal, cuando inicie sesion con mi usuario
 # se pasaran estas llaves al directorio .ssh de mi usuario y se borraran de aqui
 mkdir -p /root/.ssh
-cp linuxDistrosSetups/arch-mountain/id_rsa* /root/.ssh/
+cp linuxDistrosSetups/arch-virtual/id_rsa* /root/.ssh/
 
 # 3. Hacemos la configuracion del localtime
 ln -sf /usr/share/zoneinfo/Europe/Madrid /etc/localtime
 
 # 4. Generamos las locales a partir del locale.gen
-cp linuxDistrosSetups/arch-mountain/locale.gen /etc/locale.gen
+cp linuxDistrosSetups/arch-virtual/locale.gen /etc/locale.gen
 locale-gen
 
 # 5. Generamos la nueva imagen initramfs con los modulos de seguridad y lvm adecuados
-cp linuxDistrosSetups/arch-mountain/mkinitcpio.conf /etc/mkinitcpio.conf
+cp linuxDistrosSetups/arch-virtual/mkinitcpio.conf /etc/mkinitcpio.conf
 mkinitcpio -p linux
 
 # 6. Hacemos la configuracion adecuada del gestor de arranque
-cp linuxDistrosSetups/arch-mountain/grub /etc/default/grub
 grub-install --target=i386-pc --recheck --debug /dev/sdb
 grub-mkconfig -o /boot/grub/grub.cfg
 
@@ -46,16 +45,6 @@ systemctl enable NetworkManager.service
 
 # 8. Pass de root (archpartaadminpass)
 passwd
-
-# 9. Creacion de la particion /home, su cifrado swap etc.
-# la swap se creara en el reinicio del sistema. 
-# Ademas se montara en ramdisk el directorio /tmp y /var/tmp
-mkdir -m 700 /etc/lukskeys
-dd if=/dev/random of=/etc/lukskeys/home.key bs=1 count=4096000
-cryptsetup luksFormat -v -s 512 /dev/vg0/lvhome /etc/lukskeys/home.key
-cryptsetup -d /etc/lukskeys/home.key open --type luks /dev/vg0/lvhome homeCifrado
-mkfs.ext4 /dev/mapper/homeCifrado
-
 
 # 10. Creacion de mi propio usuario
 useradd -m -g users -G adm,disk,audio,video,optical,storage,power,scanner,network -s /bin/zsh jgl

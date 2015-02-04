@@ -41,5 +41,5 @@ cp linuxDistrosSetups/arch-virtual/fstab /mnt/etc/fstab
 # con los parametros adecuados. Es por ello que habra que clonear de nuevo el repo dentro del entorno chroot. En lugar de hacerlo con git, copiaremos
 # el directorio completo dentro de /mnt. No podemos olvidar el eliminar todo el directorio del repo cuando terminemos.
 cp -R linuxDistrosSetups /mnt 
-arch-chroot /mnt /bin/bash -c "sh linuxDistrosSetups/arch-mountain/postchroot-setup.sh" 
+arch-chroot /mnt /bin/bash -c "sh linuxDistrosSetups/arch-virtual/postchroot-setup.sh" 
 
