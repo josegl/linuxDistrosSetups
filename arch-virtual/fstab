@@ -3,14 +3,10 @@
 #
 # <file system>	<dir>	<type>	<options>	<dump>	<pass>
 # UUID=febd6283-b7b9-41b0-a1a8-edfb45b6e523
-/dev/mapper/rootCifrado	/         	ext4      	rw,relatime,data=ordered	0 1
+/dev/sda3	/         	ext4      	rw,relatime,data=ordered	0 1
 
 # UUID=9bacc94b-be38-4d83-99d2-7302b7781ec3
-/dev/sdb2           	/boot     	ext4  	rw,relatime	0 2
+/dev/sda2           	/boot     	ext4  	rw,relatime	0 2
 
-/dev/mapper/homeCifrado	/home	ext4	defaults	0 	0
-/dev/mapper/swapCifrado	none	swap	sw	0 	0
+/dev/sda4	none	swap	sw	0 	0
 
-# Ramdisk para /tmp y /var/tmp
-tmpfs	/tmp	tmpfs	nodev,nosuid,size=2G	0	0
-tmpfs	/var/tmp	tmpfs	nodev,nosuid,size=2G	0	0

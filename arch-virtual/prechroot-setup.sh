@@ -1,53 +1,27 @@
 #!/bin/bash
-
-# Este script se ejecuta al inicicio de la ejecucion de un livecd de archlinux
-# Esto funciona solo para mi portatil. Es decir. El mountain
-# Esta particionado de la siguiente manera:
-
-# ssd = 120GB = sdb
-# hd = 750GB = sda
-
-# El ssd tiene 3 particiones:
-# sdb1 = particion 10mb bios
-# sdb2 = particion 200 MB para /boot
-# sdb3 = particion del resto del espacio para lvm
-
-# El Disco duro normal tiene 1 unica particion:
-# sda1 = Todo el disco se usa para lvm
-
-# Configuracion de lvm
-# sda1 y sdb3 son physical volumes 
-# Tenemos el vg0 que es un grupo que contiene a sdb3 y sda1
-#
-# El particionado que se ha hecho del volumen es el siguiente:
-#
-# /dev/vg0/lvroot = 20GiB = cifrado con luks. passphrase ="di amigo y entra: mellon"  se monta en /dev/mapper/rootCifrado
-# /dev/vg0/lvhome = 600 GiB cifrado con luks, con una llave que se crea con dd y se almacena en /etc/lukskeys/home.key  se monta en /dev/mapper/homeCifrado
-# /dev/vg0/lvswap = 16 GiB cifrado con luks con una llave aleatoria temporal. (cryptab se encarga de ello) se monta en /dev/mapper/swapCifrado
-
-# Esquema de particiones:
-# /dev/sdb2 ------------------> /boot
-# /dev/mapper/rootCifrado ----> /
-# /dev/mapper/homeCifrado ----> /home
-# Ramdisk --------------------> /tmp
-# Ramdisk --------------------> /var/tmp
-
-# No se usa todo el disco para que si necesitamos mas espacio en el futuro para alguna de las particiones, podamos utilizarlo para dicho
-# ampliar la que necesitemos.
-
-# Las siguientes instrucciones se ejecutan para dejar el sistema correctamente particionado y formateado
+# Este setup es solo valido para levantar una maquina virtual de archlinux. 
+# esta maquina tiene una configuracion sencilla de un unico disco duro con solo
+# 4 particiones:
+# Tabla de parciones gpt
+# sda1 --> uefi = 10MiB
+# sda2 --> ext4 = 100MiB /boot
+# sda3 --> ext4 = 9GiB /
+# sda4 --> swap = 0.9GiB 
 
 # 1. Formateamos la particion sda2 para /boot. Lo haremos con ext4
-mkfs.ext4 /dev/sdb2
+mkfs.ext4 /dev/sda2
 
-# 2. Abrimos /dev/vg0/lvroot, lo mapeamos a rootCifrado y lo formateamos con ext4
-cryptsetup open --type luks /dev/vg0/lvroot rootCifrado
-mkfs.ext4 /dev/mapper/rootCifrado
+# 2. Formateamos la particion sda3 para /. Lo haremos con ext4
+mkfs.ext4 /dev/sda3
 
-# 3. Montamos las particiones
-mount /dev/mapper/rootCifrado /mnt
+# 3. En este punto creamos y activamos la swap
+mkswap /dev/sda4
+swapon /dev/sda4
+
+# 4. Montamos las particiones
+mount /dev/sda3 /mnt
 mkdir /mnt/boot
-mount /dev/sdb2 /mnt/boot
+mount /dev/sda2 /mnt/boot
 
 # 4. Instalamos los paquetes basicos. En este caso como vamos a desarrollar en esta maquina son necesarios tanto base como base-devel
 # 4.1 metemos unos repos en condiciones. Para eso necesitamos el paquete reflector.
@@ -59,7 +33,7 @@ pacstrap /mnt base base-devel
 
 
 # 5. En este punto generariamos el fstab con genfstab, pero en este caso vamos a restaurar el fichero original.
-cp linuxDistrosSetups/arch-mountain/fstab /mnt/etc/fstab
+cp linuxDistrosSetups/arch-virtual/fstab /mnt/etc/fstab
 
 # 6. Aqui nos chrooteamos. 
 # Tendremos que partir la instalacion del setup en dos partes. La prechroot, que es esta que se encarga del tema del particionado, montaje
