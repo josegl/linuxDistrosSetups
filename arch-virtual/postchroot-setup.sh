@@ -37,7 +37,7 @@ cp linuxDistrosSetups/arch-virtual/mkinitcpio.conf /etc/mkinitcpio.conf
 mkinitcpio -p linux
 
 # 6. Hacemos la configuracion adecuada del gestor de arranque
-grub-install --target=i386-pc --recheck --debug /dev/sdb
+grub-install --target=i386-pc --recheck --debug /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # 7. Configuracion de red. Usaremos networkmanager para ello
